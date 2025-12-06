@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18' // has npm + npx
+            args '-u root:root'
+        }
+    }
 
     environment {
         FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
