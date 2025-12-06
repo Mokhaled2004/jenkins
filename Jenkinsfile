@@ -13,17 +13,16 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Properly checkout your repo
-                checkout scm
+                sh 'git clone https://github.com/Mokhaled2004/jenkins.git .'
             }
         }
 
         stage('Install Firebase Tools') {
             steps {
-                // Install only if not already installed
                 sh '''
                 if ! command -v firebase &> /dev/null
                 then
+                    echo "Installing firebase-tools..."
                     npm install -g firebase-tools
                 else
                     echo "firebase-tools already installed"
