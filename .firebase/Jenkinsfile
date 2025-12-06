@@ -10,10 +10,37 @@ pipeline {
         FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
     }
 
+    options {
+        skipDefaultCheckout() // we’ll do explicit checkout
+        timestamps()
+    }
+
     stages {
-        stage('Checkout Repo') {
+        stage('Clean Workspace') {
             steps {
-                checkout scm
+                deleteDir() // Optional if you want a fresh start
+            }
+        }
+
+        stage('Checkout / Pull Changes') {
+            steps {
+                script {
+                    // If .git exists, pull; else clone
+                    if (fileExists('.git')) {
+                        sh 'git reset --hard'
+                        sh 'git clean -fd'
+                        sh 'git pull origin main'
+                    } else {
+                        sh 'git clone https://github.com/Mokhaled2004/jenkins.git .'
+                    }
+                }
+            }
+        }
+
+        stage('List Files') {
+            steps {
+                sh 'pwd'
+                sh 'ls -la'
             }
         }
 
@@ -23,10 +50,8 @@ pipeline {
             }
         }
 
-        stage('Deploy to Firebase') {
+        stage('Deploy') {
             steps {
-                sh 'ls -la'          // debug: show files in workspace
-                sh 'pwd'             // debug: show current dir
                 sh 'npx firebase deploy --only hosting --force --debug'
             }
         }
@@ -37,7 +62,7 @@ pipeline {
             echo "✅ Deployment successful!"
         }
         failure {
-            echo "❌ Deployment failed. Check logs!"
+            echo "❌ Deployment failed!"
         }
     }
 }
