@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                sh 'git clone https://github.com/Mokhaled2004/jenkins.git .'
+                checkout scm  // ← important: use built-in SCM, not git clone
             }
         }
 
