@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:18' // has npm + npx
-            args '-u root:root'
-        }
-    }
+    agent any  // just use the Jenkins container itself
 
     environment {
         FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
@@ -19,7 +14,7 @@ pipeline {
 
         stage('Deploy to Firebase Hosting') {
             steps {
-                sh 'npx firebase-tools deploy --only hosting'
+                sh 'firebase deploy --only hosting'
             }
         }
     }
