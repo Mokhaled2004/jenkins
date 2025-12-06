@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs "node25" // ← Must match the name you chose in Jenkins
-    }
-
     environment {
         FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
     }
@@ -13,18 +9,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'npm run build'
             }
         }
 
