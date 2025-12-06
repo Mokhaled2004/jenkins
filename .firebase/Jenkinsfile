@@ -24,7 +24,9 @@ pipeline {
 
         stage('Checkout Repo') {
             steps {
-                checkout scm  // fetch the repo from GitHub
+                dir('firebase-app') {  // checkout into this folder
+                    checkout scm
+                }
             }
         }
 
@@ -44,11 +46,8 @@ pipeline {
 
         stage('Deploy to Firebase Hosting') {
             steps {
-                dir("${WORKSPACE}") {  // make sure we’re at workspace root
-                    sh '''
-                    echo "Deploying to Firebase..."
-                    npx firebase deploy --only hosting --token $FIREBASE_TOKEN --force --debug
-                    '''
+                dir('firebase-app') {  // make sure we’re in repo folder
+                    sh 'npx firebase deploy --only hosting --force --debug'
                 }
             }
         }
