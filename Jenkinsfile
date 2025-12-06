@@ -1,30 +1,30 @@
 pipeline {
     agent {
         docker {
-            image 'node:18'       // Node.js + npm included
-            args '-u root:root'    // run as root inside container
+            image 'node:18'
+            args '-u root:root'
         }
     }
 
     environment {
-        FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')  // Jenkins secret
+        FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
     }
 
     options {
-        skipDefaultCheckout()    // we’ll do explicit checkout
-        timestamps()             // adds timestamps to logs
+        skipDefaultCheckout()
+        timestamps()
     }
 
     stages {
         stage('Clean Workspace') {
             steps {
-                deleteDir()  // remove old files to avoid stale deploys
+                deleteDir()
             }
         }
 
         stage('Checkout Repo') {
             steps {
-                checkout scm  // fetch the repo from GitHub
+                checkout scm
             }
         }
 
@@ -44,8 +44,8 @@ pipeline {
 
         stage('Deploy to Firebase Hosting') {
             steps {
-                dir("${WORKSPACE}") {  // make sure we’re at workspace root
-                    sh 'npx firebase deploy --only hosting --force --debug'
+                dir("${WORKSPACE}") {
+                    sh 'npx firebase deploy --only hosting --force --token $FIREBASE_TOKEN --debug'
                 }
             }
         }
