@@ -1,5 +1,5 @@
 pipeline {
-    agent any  // use the Jenkins container itself
+    agent any
 
     environment {
         FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
@@ -14,7 +14,7 @@ pipeline {
 
         stage('Deploy to Firebase Hosting') {
             steps {
-                sh 'firebase deploy --only hosting'
+                sh 'npx firebase-tools deploy --only hosting'
             }
         }
     }
