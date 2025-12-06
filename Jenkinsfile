@@ -1,5 +1,5 @@
 pipeline {
-    agent any  // just use the Jenkins container itself
+    agent any  // use the Jenkins container itself
 
     environment {
         FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
