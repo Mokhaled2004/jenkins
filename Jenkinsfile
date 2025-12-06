@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs "node25" // ← Must match the name you chose in Jenkins
+    }
+
     environment {
         FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
     }
@@ -26,7 +30,7 @@ pipeline {
 
         stage('Deploy to Firebase Hosting') {
             steps {
-                sh 'firebase deploy --only hosting'
+                sh 'npx firebase-tools deploy --only hosting'
             }
         }
     }
