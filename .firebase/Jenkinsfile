@@ -1,30 +1,29 @@
 pipeline {
     agent {
         docker {
-            image 'node:18'       // Node.js + npm included
-            args '-u root:root'    // run as root inside container
+            image 'node:18'
+            args '-u root:root'
         }
     }
 
     environment {
-        FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')  // Jenkins secret
+        FIREBASE_TOKEN = credentials('FIREBASE_TOKEN')
     }
 
     options {
-        skipDefaultCheckout()    // we’ll do explicit checkout
-        timestamps()             // adds timestamps to logs
+        timestamps()
     }
 
     stages {
         stage('Clean Workspace') {
             steps {
-                deleteDir()  // remove old files to avoid stale deploys
+                deleteDir()
             }
         }
 
         stage('Checkout Repo') {
             steps {
-                dir('firebase-app') {  // checkout into this folder
+                dir('firebase-app') { // checkout into a dedicated folder
                     checkout scm
                 }
             }
@@ -33,21 +32,18 @@ pipeline {
         stage('Install Firebase Tools') {
             steps {
                 sh '''
-                if ! command -v firebase &> /dev/null
-                then
-                    echo "Installing firebase-tools..."
-                    npm install -g firebase-tools
-                else
-                    echo "firebase-tools already installed"
-                fi
+                npm install -g firebase-tools
                 '''
             }
         }
 
         stage('Deploy to Firebase Hosting') {
             steps {
-                dir('firebase-app') {  // make sure we’re in repo folder
-                    sh 'npx firebase deploy --only hosting --force --debug'
+                dir('firebase-app') {
+                    sh '''
+                    echo "Deploying to Firebase..."
+                    npx firebase deploy --only hosting --force --debug
+                    '''
                 }
             }
         }
