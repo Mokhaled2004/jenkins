@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm  // ← important: use built-in SCM, not git clone
+                checkout scm
             }
         }
 
@@ -33,7 +33,9 @@ pipeline {
 
         stage('Deploy to Firebase Hosting') {
             steps {
-                sh 'npx firebase deploy --only hosting'
+                dir("${WORKSPACE}") { // make sure we’re in workspace root
+                    sh 'npx firebase deploy --only hosting --debug'
+                }
             }
         }
     }
