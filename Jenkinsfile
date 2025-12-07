@@ -18,7 +18,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                echo "🚀 Starting Git checkout…"
+                echo " Starting Git checkout…"
                 checkout([
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
@@ -33,13 +33,13 @@ pipeline {
                         // public repo → no credentials needed
                     ]]
                 ])
-                echo "✅ Checkout completed successfully!"
+                echo "Checkout completed successfully!"
             }
         }
 
         stage('List Workspace') {
             steps {
-                echo "📂 Listing workspace files…"
+                echo "Listing workspace files…"
                 sh 'pwd'
                 sh 'ls -la'
             }
@@ -47,7 +47,7 @@ pipeline {
 
         stage('Deploy to Firebase') {
             steps {
-                echo "🚀 Deploying to Firebase hosting..."
+                echo "Deploying to Firebase hosting..."
                 dir('firebase-app') {
                     sh 'npm install -g firebase-tools'
                     sh 'firebase --version'
@@ -59,10 +59,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ Pipeline finished successfully!"
+            echo "Pipeline finished successfully!"
         }
         failure {
-            echo "❌ Pipeline failed!"
+            echo "Pipeline failed!"
         }
     }
 }
