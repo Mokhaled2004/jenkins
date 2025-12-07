@@ -1,36 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Welcome to Firebase Hosting</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Before Jenkins</title>
 
     <style>
       body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #000;
         margin: 0;
         padding: 0;
-        background: #0f0f0f;
-        color: #ffffff;
-        font-family: "Segoe UI", sans-serif;
+        background: #fff;
+      }
+
+      /* Cute fixed header */
+      header {
+        width: 100%;
+        background: linear-gradient(90deg, #ffb347, #ffcc33);
+        padding: 15px 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.6rem; /* slightly bigger */
+        color: #fff;
+        letter-spacing: 1px;
+      }
+
+      /* Small corner logo with margins and bigger font */
+      header::after {
+        content: "Mohamed Khaled 20225056";
+        position: absolute;
+        right: 100px; /* added margin from edge */
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem; /* bigger than before */
+        font-weight: 600;
+        color: #fff;
+        opacity: 0.9;
+      }
+
+      .content {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
+        padding-top: 80px; /* offset for fixed header */
+        box-sizing: border-box;
+      }
+
+      .content-box {
+        padding: 40px 60px;
+        border: 2px dashed #ffcc33;
+        border-radius: 15px;
+        text-align: center;
+        background-color: #fffbe6;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       }
 
       h1 {
-        font-size: 3.5rem;
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-align: center;
-        background: linear-gradient(90deg, #00c6ff, #0072ff);
-        -webkit-background-clip: text;
-        color: transparent;
+        font-size: 3rem;
+        font-weight: bold;
+        margin: 0;
+        color: #ff8c00;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        color: #555;
+        margin-top: 10px;
       }
     </style>
   </head>
 
   <body>
-    <h1>Jenkinsss 20225056</h1>
+    <header>Jenkin Task</header>
+
+    <div class="content">
+      <div class="content-box">
+        <h1>Before Jenkins CI/CD</h1>
+        <div class="subtitle">Testing site before deployment</div>
+      </div>
+    </div>
   </body>
 </html>
