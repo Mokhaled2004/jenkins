@@ -16,9 +16,17 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+
+        stage('Checkout Code') {
             steps {
                 git branch: 'main', url: 'https://github.com/Mokhaled2004/jenkins.git'
+            }
+        }
+
+        stage('Debug: Check Workspace Files') {
+            steps {
+                sh 'pwd'
+                sh 'ls -la'
             }
         }
 
@@ -29,7 +37,21 @@ pipeline {
             }
         }
 
-        stage('Authenticate Firebase') {
+        stage('Debug: Check Firebase CLI Location') {
+            steps {
+                sh 'which firebase'
+            }
+        }
+
+        stage('Debug: Check Credential Exists') {
+            steps {
+                script {
+                    sh 'echo "Firebase token length: ${#FIREBASE_TOKEN}"'
+                }
+            }
+        }
+
+        stage('Firebase Auth Test') {
             steps {
                 sh 'firebase logout || true'
                 sh 'firebase login:ci --token "$FIREBASE_TOKEN"'
@@ -45,10 +67,10 @@ pipeline {
 
     post {
         success {
-            echo "🔥 Deploy success!"
+            echo "🔥 Deployment successful!"
         }
         failure {
-            echo "💀 Deploy failed!"
+            echo "💀 Deployment failed — check logs!"
         }
     }
 }
