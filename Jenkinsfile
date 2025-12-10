@@ -10,27 +10,25 @@ pipeline {
     }
 
     triggers {
-        // This ensures polling is triggered by GitHub webhook
-        pollSCM('* * * * *') // checks every minute; webhook forces it immediately
+        pollSCM('* * * * *')
     }
 
     stages {
 
         stage('Checkout Code') {
             steps {
-                echo " Starting Git checkout…"
+                echo "Starting Git checkout…"
                 checkout([
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
                     doGenerateSubmoduleConfigurations: false,
                     extensions: [
-                        [$class: 'CleanBeforeCheckout'], // clean workspace
-                        [$class: 'PruneStaleBranch'],    // remove stale branches
-                        [$class: 'WipeWorkspace']        // wipe workspace completely
+                        [$class: 'CleanBeforeCheckout'],
+                        [$class: 'PruneStaleBranch'],
+                        [$class: 'WipeWorkspace']
                     ],
                     userRemoteConfigs: [[
                         url: 'https://github.com/Mokhaled2004/JENKINS.git'
-                        // public repo → no credentials needed
                     ]]
                 ])
                 echo "Checkout completed successfully!"
@@ -49,7 +47,7 @@ pipeline {
             steps {
                 echo "Deploying to Firebase hosting..."
                 dir('firebase-app') {
-                    sh 'npm install -g firebase-tools'
+                    // ✅ Firebase CLI is already installed globally as root
                     sh 'firebase --version'
                     sh 'firebase deploy --only hosting --token "$FIREBASE_TOKEN" --debug'
                 }
