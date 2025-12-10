@@ -47,7 +47,6 @@ pipeline {
             steps {
                 echo "Deploying to Firebase hosting..."
                 dir('firebase-app') {
-                    // ✅ Firebase CLI is already installed globally as root
                     sh 'firebase --version'
                     sh 'firebase deploy --only hosting --token "$FIREBASE_TOKEN" --debug'
                 }
